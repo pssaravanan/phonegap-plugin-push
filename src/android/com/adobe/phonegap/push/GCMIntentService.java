@@ -90,18 +90,17 @@ public class GCMIntentService extends GCMBaseIntentService implements PushConsta
             // if we are in the foreground, just surface the payload, else post it to the statusbar
             if (PushPlugin.isInForeground()) {
                 extras.putBoolean(FOREGROUND, true);
-                PushPlugin.sendExtras(extras);
             }
             else {
                 extras.putBoolean(FOREGROUND, false);
-
-                // Send a notification if there is a message
-                String message = this.getMessageText(extras);
-                String title = getString(extras, TITLE, "");
-                if ((message != null && message.length() != 0) ||
-                        (title != null && title.length() != 0)) {
-                    createNotification(context, extras);
-                }
+            }
+            // Send a notification if there is a message
+            String message = this.getMessageText(extras);
+            String title = getString(extras, TITLE, "");
+            if ((message != null && message.length() != 0) ||
+                    (title != null && title.length() != 0)) {
+                createNotification(context, extras);
+                PushPlugin.sendExtras(extras);
             }
         }
     }
